@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Share+Tech+Mono&display=swap');
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -15,197 +15,205 @@
             color: white;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
         }
 
-        /* --- LOADING SCREEN ANIMATION --- */
-        #loader-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+        ::-webkit-scrollbar {
+            display: none;
         }
 
-        .loading-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 0.5rem;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #000, #fff, #000);
-            background-repeat: no-repeat;
-            background-size: 80%;
-            animation: shine 2s linear infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
+        /* ====================================================================
+           💥 LOADER PALING GEMPAK SEPANJANG ABAD (SCI-FI REACTOR & DECRYPTION) 💥
+           ==================================================================== */
+        #epic-loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 999999; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; background: transparent; perspective: 1000px;
         }
+        .epic-door {
+            position: absolute; left: 0; width: 100%; height: 50.5%;
+            background: #020202; z-index: 100;
+            transition: transform 1.5s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+        .door-top { top: 0; border-bottom: 2px solid rgba(6, 182, 212, 0.5); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); }
+        .door-bottom { bottom: 0; border-top: 2px solid rgba(6, 182, 212, 0.5); box-shadow: 0 -10px 30px rgba(6, 182, 212, 0.2); }
+        .grid-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: 101; opacity: 0.8;
+            animation: grid-move 10s linear infinite;
+        }
+        .epic-content {
+            position: relative; z-index: 105; display: flex; flex-direction: column; align-items: center;
+            transition: all 0.5s ease;
+        }
+        .system-status {
+            font-family: 'Share Tech Mono', monospace; font-size: 1rem; letter-spacing: 0.4em;
+            color: #ef4444; margin-bottom: 30px; text-shadow: 0 0 10px #ef4444;
+            animation: blink-warning 1s infinite alternate; text-transform: uppercase;
+        }
+        .reactor-core {
+            position: relative; width: 220px; height: 220px; margin-bottom: 40px;
+            display: flex; justify-content: center; align-items: center;
+            transform-style: preserve-3d; transform: rotateX(10deg);
+        }
+        .reactor-ring { position: absolute; border-radius: 50%; box-sizing: border-box; }
+        .outer-ring {
+            width: 100%; height: 100%; border: 2px solid rgba(6, 182, 212, 0.3); border-top: 2px solid #06b6d4; border-bottom: 2px solid #06b6d4;
+            animation: spin-reactor 4s linear infinite; box-shadow: 0 0 20px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+        .middle-ring {
+            width: 85%; height: 85%; border: 3px dashed #ec4899; animation: spin-reactor-reverse 3s linear infinite;
+            opacity: 0.8; box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+        }
+        .inner-ring {
+            width: 70%; height: 70%; border: 4px solid transparent; border-left-color: #3b82f6; border-right-color: #3b82f6;
+            animation: spin-reactor 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        .dotted-ring {
+            width: 55%; height: 55%; border: 4px dotted #4ade80; animation: spin-reactor-reverse 5s linear infinite;
+        }
+        .core-text { font-family: 'Share Tech Mono', monospace; font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px #06b6d4, 0 0 40px #06b6d4; z-index: 10; }
+        .hacker-text {
+            font-family: 'Share Tech Mono', monospace; font-size: 3.5rem; font-weight: 900; letter-spacing: 0.4rem; color: #fff;
+            text-shadow: 0 0 15px #06b6d4, 0 0 30px #ec4899; margin-bottom: 25px; text-transform: uppercase; white-space: nowrap;
+        }
+        .progress-container {
+            width: 350px; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.3);
+            position: relative; overflow: hidden; margin-bottom: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.8);
+        }
+        .progress-bar {
+            height: 100%; width: 0%; border-radius: 10px; background: linear-gradient(90deg, #06b6d4, #ec4899, #3b82f6, #06b6d4);
+            background-size: 300% 100%; transition: width 0.1s ease-out; animation: rgb-flow 2s linear infinite;
+        }
+        .progress-glow {
+            position: absolute; top: 0; left: 0; height: 100%; width: 30px; background: rgba(255,255,255,0.8); filter: blur(5px);
+            animation: scan-glow 2s ease-in-out infinite; opacity: 0.6;
+        }
+        .terminal-box { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #06b6d4; letter-spacing: 0.2em; text-shadow: 0 0 8px #06b6d4; height: 20px; font-weight: bold; }
+        #epic-flash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-out; }
+        .shake-intense { animation: shake-screen 0.4s cubic-bezier(.36,.07,.19,.97) both infinite !important; }
 
-        @keyframes shine {
-            0% { background-position: -500%; }
-            100% { background-position: 500%; }
+        @keyframes spin-reactor { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reactor-reverse { 100% { transform: rotate(-360deg); } }
+        @keyframes blink-warning { 0% { opacity: 1; } 100% { opacity: 0.3; } }
+        @keyframes rgb-flow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        @keyframes scan-glow { 0% { left: -10%; } 100% { left: 110%; } }
+        @keyframes grid-move { 0% { background-position: 0 0; } 100% { background-position: 50px 50px; } }
+        @keyframes shake-screen {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
+        body:not(.loaded) { overflow: hidden; }
+        body.loaded .door-top { transform: translateY(-100%); } body.loaded .door-bottom { transform: translateY(100%); }
+        body.loaded .grid-overlay, body.loaded .epic-content { opacity: 0; transform: scale(1.5) translateZ(50px); filter: blur(10px); }
+        body.loaded #epic-loader-wrapper { visibility: hidden; transition: visibility 0s 1.5s; }
 
-        .loader-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .loader-progress {
-            position: absolute;
-            width: 0%;
-            height: 100%;
-            background: #3b82f6;
-            box-shadow: 0 0 15px #3b82f6;
-            animation: load 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes load {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        .loaded #loader-wrapper {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        body:not(.loaded) {
-            overflow: hidden;
-        }
-
-        /* --- STYLING --- */
         .bg-gradient-custom {
             background: radial-gradient(circle at top left, rgba(26, 42, 58, 0.8) 0%, rgba(13, 13, 13, 0.9) 40%),
                         radial-gradient(circle at bottom right, rgba(26, 26, 46, 0.8) 0%, rgba(13, 13, 13, 0.9) 40%);
         }
-
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
             transition: transform 0.3s ease, border 0.3s ease, background 0.3s ease;
         }
+        .glass-card:hover { border: 1px solid rgba(59, 130, 246, 0.5); background: rgba(255, 255, 255, 0.05); }
+        .nav-link:hover { color: #60a5fa; transition: 0.3s; }
+        .project-img-container { overflow: hidden; border-radius: 15px; }
+        .project-img-container img { transition: transform 0.5s ease; }
+        .glass-card:hover .project-img-container img { transform: scale(1.1); }
+        
+        input, textarea { background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; }
+        input:focus, textarea:focus { outline: none !important; border-color: #3b82f6 !important; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; }
+        .video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .resume-card { background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        .resume-card::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%); opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+        .resume-card:hover::before { opacity: 1; }
+        
+        .btn-premium { background: #3b82f6; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-premium:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6); background: #60a5fa; }
+        .doc-icon-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 15px; color: #3b82f6; font-size: 1.5rem; transition: 0.3s; }
+        .resume-card:hover .doc-icon-box { background: #3b82f6; color: white; transform: rotate(-10deg); }
+        
+        #projectModal.hidden, #cvModal.hidden { display: none; }
+        #projectModal:not(.hidden), #cvModal:not(.hidden) { display: flex; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .glass-card:hover {
-            border: 1px solid rgba(59, 130, 246, 0.5);
-            background: rgba(255, 255, 255, 0.05);
+        /* ====================================================================
+           ✨ ANIMASI GEMPAK UNTUK BAHAGIAN KEMAHIRAN (SKILLS) ✨
+           ==================================================================== */
+        
+        /* 1. Scroll Reveal Animation */
+        .reveal-skill { opacity: 0; transform: translateY(60px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-skill.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* 2. Neon Hover Effect 3D */
+        .neon-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; perspective: 1000px; }
+        .neon-card:hover { transform: translateY(-10px) scale(1.02) rotateX(2deg) rotateY(-2deg); z-index: 10; }
+        
+        .neon-blue:hover { 
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(59, 130, 246, 0.1); 
+            border-color: rgba(59, 130, 246, 0.6); 
+        }
+        .neon-purple:hover { 
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3), inset 0 0 20px rgba(168, 85, 247, 0.1); 
+            border-color: rgba(168, 85, 247, 0.6); 
         }
 
-        .nav-link:hover {
-            color: #60a5fa;
-            transition: 0.3s;
+        /* 3. Floating Icon Animation */
+        @keyframes float-icon {
+            0% { transform: translateY(0px); filter: drop-shadow(0 5px 5px rgba(168, 85, 247, 0.2)); }
+            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 10px rgba(168, 85, 247, 0.5)); }
+            100% { transform: translateY(0px); filter: drop-shadow(0 5px 5px rgba(168, 85, 247, 0.2)); }
+        }
+        .floating-icon { animation: float-icon 3s ease-in-out infinite; }
+        
+        /* Offset animasi supaya tak bergerak serentak */
+        .float-delay-1 { animation-delay: 0s; }
+        .float-delay-2 { animation-delay: 0.5s; }
+        .float-delay-3 { animation-delay: 1s; }
+        .float-delay-4 { animation-delay: 1.5s; }
+        .float-delay-5 { animation-delay: 2s; }
+
+        /* ====================================================================
+           🌟 ANIMASI BACKGROUND UNTUK KEMAHIRAN (SKILLS SECTION) 🌟
+           ==================================================================== */
+        .skills-bg-grid {
+            position: absolute; top: 0; left: 0; width: 200%; height: 200%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: 0; opacity: 0.6;
+            animation: grid-move-slow 20s linear infinite; pointer-events: none;
+        }
+        @keyframes grid-move-slow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
         }
 
-        .project-img-container {
-            overflow: hidden;
-            border-radius: 15px;
+        @keyframes orb-float-1 {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            33% { transform: translate(40px, -60px) scale(1.1); opacity: 0.8; }
+            66% { transform: translate(-30px, 30px) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
         }
-
-        .project-img-container img {
-            transition: transform 0.5s ease;
+        @keyframes orb-float-2 {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            33% { transform: translate(-50px, 40px) scale(1.2); opacity: 0.7; }
+            66% { transform: translate(30px, -40px) scale(0.8); opacity: 0.4; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
         }
-
-        .glass-card:hover .project-img-container img {
-            transform: scale(1.1);
-        }
-
-        input, textarea {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-        }
-
-        input:focus, textarea:focus {
-            outline: none !important;
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .video-container iframe, .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* --- EXCLUSIVE RESUME SECTION STYLING --- */
-        .resume-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .resume-card::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-
-        .resume-card:hover::before {
-            opacity: 1;
-        }
-
-        .btn-premium {
-            background: #3b82f6;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn-premium:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-            background: #60a5fa;
-        }
-
-        .doc-icon-box {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            color: #3b82f6;
-            font-size: 1.5rem;
-            transition: 0.3s;
-        }
-
-        .resume-card:hover .doc-icon-box {
-            background: #3b82f6;
-            color: white;
-            transform: rotate(-10deg);
-        }
+        .animate-orb-1 { animation: orb-float-1 15s ease-in-out infinite; }
+        .animate-orb-2 { animation: orb-float-2 18s ease-in-out infinite alternate; }
 
     </style>
 </head>
@@ -213,49 +221,73 @@
 
     <canvas id="bg-canvas" style="position: fixed; top: 0; left: 0; z-index: -1; background: #050505;"></canvas>
 
-    <div id="loader-wrapper">
-        <div class="loader-content text-center">
-            <div class="loading-text">ALIF DANIEL</div>
-            <div class="loader-bar">
-                <div class="loader-progress"></div>
+    <div id="epic-loader-wrapper">
+        <div class="epic-door door-top"></div>
+        <div class="epic-door door-bottom"></div>
+        <div class="grid-overlay"></div>
+        <div class="epic-content" id="epic-content">
+            <div class="system-status" id="sys-status">⚠ SYSTEM ENCRYPTED //</div>
+            <div class="reactor-core">
+                <div class="reactor-ring outer-ring"></div>
+                <div class="reactor-ring middle-ring"></div>
+                <div class="reactor-ring inner-ring"></div>
+                <div class="reactor-ring dotted-ring"></div>
+                <div class="core-text" id="core-percent">00%</div>
             </div>
-            <p class="mt-4 text-[10px] tracking-[0.3em] text-gray-500 font-bold uppercase">Initializing System...</p>
+            <h1 class="hacker-text" id="hacker-name" data-target="ALIF DANIEL">$&%# @!*(^</h1>
+            <div class="progress-container">
+                <div class="progress-bar" id="epic-progress"></div>
+                <div class="progress-glow"></div>
+            </div>
+            <div class="terminal-box" id="epic-terminal">> DECRYPTING DATA...</div>
         </div>
+        <div id="epic-flash"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-black/20 backdrop-blur-md">
         <div class="text-2xl font-bold tracking-tighter">Alepp<span class="text-blue-500">.</span></div>
         <ul class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
-            <li><a href="#" class="nav-link text-white">Utama</a></li>
-            <li><a href="#about" class="nav-link">Tentang</a></li>
-            <li><a href="#proyek" class="nav-link">Projek</a></li>
-            <li><a href="#kontak" class="nav-link">Kontrak</a></li>
+            <li><a href="#" class="nav-link text-white" data-i18n="nav_home">Utama</a></li>
+            <li><a href="#about" class="nav-link" data-i18n="nav_about">Tentang</a></li>
+            <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Kemahiran</a></li>
+            <li><a href="#proyek" class="nav-link" data-i18n="nav_projects">Projek</a></li>
+            <li><a href="#kontak" class="nav-link" data-i18n="nav_contact">Hubungi</a></li>
         </ul>
-        <div class="flex items-center space-x-4">
-            <i class="fas fa-globe text-gray-400"></i>
-            <span class="text-xs font-bold uppercase tracking-widest">ID</span>
+        
+        <div class="relative group cursor-pointer">
+            <div class="flex items-center space-x-2 text-gray-400 hover:text-white transition bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                <i class="fas fa-globe"></i>
+                <span id="current-lang" class="text-xs font-bold uppercase tracking-widest">MS</span>
+                <i class="fas fa-chevron-down text-[10px] ml-1"></i>
+            </div>
+            <div class="absolute right-0 mt-3 w-36 bg-[#111] border border-gray-800 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 overflow-hidden py-2">
+                <div onclick="changeLanguage('en')" class="px-4 py-3 text-sm text-gray-400 hover:bg-blue-600 hover:text-white transition flex items-center justify-between">English <span class="text-[10px] text-gray-500 font-bold">EN</span></div>
+                <div onclick="changeLanguage('ms')" class="px-4 py-3 text-sm text-gray-400 hover:bg-blue-600 hover:text-white transition flex items-center justify-between">Melayu <span class="text-[10px] text-gray-500 font-bold">MS</span></div>
+                <div onclick="changeLanguage('id')" class="px-4 py-3 text-sm text-gray-400 hover:bg-blue-600 hover:text-white transition flex items-center justify-between">Indonesia <span class="text-[10px] text-gray-500 font-bold">ID</span></div>
+            </div>
         </div>
     </nav>
 
     <section class="pt-40 pb-20 px-8 md:px-24 flex flex-col md:flex-row items-center justify-between">
         <div class="md:w-1/2 space-y-6">
-            <p class="text-gray-400 font-medium tracking-widest uppercase text-sm">Halo, Saya</p>
+            <p class="text-gray-400 font-medium tracking-widest uppercase text-sm" data-i18n="hero_greet">Halo, Saya</p>
             <h1 class="text-5xl md:text-7xl font-bold leading-tight">
                 Alif Daniel <br> <span class="text-gray-500">Ismp Multimedia</span>
             </h1>
             <h2 class="text-2xl text-blue-400 font-semibold italic">UI/UX Designer & Web Developer</h2>
-            <p class="text-gray-400 max-w-md leading-relaxed">
-                Saya membantu bisnis dan individu mengubah ide menjadi solusi digital yang indah dan berfungsi dengan baik.
+            <p class="text-gray-400 max-w-md leading-relaxed" data-i18n="hero_desc">
+                Saya membantu perniagaan dan individu mengubah idea menjadi penyelesaian digital yang cantik dan berfungsi dengan baik.
             </p>
-            <div class="flex space-x-4 pt-4 text-xl text-gray-500">
-                <i class="fab fa-github hover:text-white cursor-pointer transition"></i>
-                <i class="fab fa-linkedin hover:text-white cursor-pointer transition"></i>
-                <i class="fab fa-instagram hover:text-white cursor-pointer transition"></i>
-                <i class="fab fa-dribbble hover:text-white cursor-pointer transition"></i>
+            
+            <div class="flex space-x-6 pt-4 text-2xl text-gray-500">
+                <a href="https://www.linkedin.com/in/muhammad-alif-daniel-bin-abd-rahman-0a1318406" target="_blank" class="hover:text-[#0a66c2] transition transform hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/fylepp" target="_blank" class="hover:text-[#E1306C] transition transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/60189490784" target="_blank" class="hover:text-[#25D366] transition transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
             </div>
+
             <div class="flex space-x-4 pt-6">
-                <a href="#proyek" class="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-gray-200 transition">Lihat Proyek</a>
-                <a href="#kontak" class="px-8 py-3 rounded-full border border-gray-700 hover:border-white transition">Kontak Saya</a>
+                <a href="#proyek" class="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-gray-200 transition" data-i18n="btn_projects">Lihat Proyek</a>
+                <a href="#kontak" class="px-8 py-3 rounded-full border border-gray-700 hover:border-white transition" data-i18n="btn_contact">Kontak Saya</a>
             </div>
         </div>
 
@@ -263,7 +295,7 @@
             <div class="glass-card p-4 overflow-hidden transform rotate-3 hover:rotate-0 transition duration-500">
                 <img src="me1.jpg.jpg" alt="Alif" class="rounded-xl grayscale hover:grayscale-0 transition duration-500">
                 <div class="mt-4 text-center">
-                    <p class="font-bold">Alif Daniel</p>
+                    <p class="font-bold">Muhammad Alif Daniel Bin Abd Rahman</p>
                     <p class="text-xs text-gray-500">ISMP Multimedia Specialist</p>
                 </div>
             </div>
@@ -275,16 +307,16 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                 <div class="space-y-8">
                     <div>
-                        <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2">Tentang Saya</p>
-                        <h2 class="text-4xl font-bold text-white mb-6">Menciptakan Pengalaman Digital yang Bermakna</h2>
+                        <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2" data-i18n="about_label">Tentang Saya</p>
+                        <h2 class="text-4xl font-bold text-white mb-6" data-i18n="about_title">Menciptakan Pengalaman Digital yang Bermakna</h2>
                     </div>
                     
                     <div class="space-y-4 text-gray-400 leading-relaxed">
-                        <p>
-                            Saya adalah seorang <span class="text-white font-semibold">Multimedia Specialist</span> dengan fokus mendalam pada pengembangan web dan desain antarmuka. Perjalanan saya dimulai dari rasa penasaran bagaimana teknologi dapat membantu manusia menyelesaikan masalah dengan cara yang lebih elegan.
+                        <p data-i18n="about_p1">
+                            Saya adalah seorang <span class="text-white font-semibold">Pakar Multimedia</span> dengan fokus mendalam pada pembangunan web dan rekaan antaramuka. Perjalanan saya bermula dari rasa ingin tahu bagaimana teknologi dapat membantu manusia menyelesaikan masalah dengan cara yang lebih elegan.
                         </p>
-                        <p>
-                            Sebagai <span class="text-blue-400">ISMP Multimedia Specialist</span>, saya menggabungkan aspek teknis pemrograman dengan estetika visual untuk memastikan setiap proyek tidak hanya "bekerja", tapi juga memberikan kesan yang tak terlupakan bagi penggunanya.
+                        <p data-i18n="about_p2">
+                            Sebagai <span class="text-blue-400">Pakar Multimedia ISMP</span>, saya menggabungkan aspek teknikal pengaturcaraan dengan estetika visual untuk memastikan setiap projek bukan sahaja 'berfungsi', tapi juga memberikan kesan yang tidak dapat dilupakan bagi penggunanya.
                         </p>
                     </div>
 
@@ -292,15 +324,15 @@
                         <div class="flex items-start space-x-4">
                             <div class="text-blue-500 mt-1"><i class="fas fa-check-circle"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Problem Solver</h4>
-                                <p class="text-xs text-gray-500">Menyelesaikan tantangan teknis dengan logika bersih.</p>
+                                <h4 class="font-bold text-white" data-i18n="ps_title">Penyelesai Masalah</h4>
+                                <p class="text-xs text-gray-500" data-i18n="ps_desc">Menyelesaikan cabaran teknikal dengan logik bersih.</p>
                             </div>
                         </div>
                         <div class="flex items-start space-x-4">
                             <div class="text-blue-500 mt-1"><i class="fas fa-check-circle"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Detail Oriented</h4>
-                                <p class="text-xs text-gray-500">Memastikan presisi pada setiap pixel.</p>
+                                <h4 class="font-bold text-white" data-i18n="do_title">Mementingkan Butiran</h4>
+                                <p class="text-xs text-gray-500" data-i18n="do_desc">Memastikan ketepatan pada setiap piksel.</p>
                             </div>
                         </div>
                     </div>
@@ -310,24 +342,24 @@
                     <div class="glass-card p-10 grid grid-cols-2 gap-8 text-center shadow-xl">
                         <div>
                             <h3 class="text-4xl font-bold text-blue-500">2+</h3>
-                            <p class="text-gray-500 text-xs mt-2 uppercase tracking-widest">Tahun Pengalaman</p>
+                            <p class="text-gray-500 text-xs mt-2 uppercase tracking-widest" data-i18n="stat_exp">Tahun Pengalaman</p>
                         </div>
                         <div>
                             <h3 class="text-4xl font-bold text-blue-500">20+</h3>
-                            <p class="text-gray-500 text-xs mt-2 uppercase tracking-widest">Proyek Selesai</p>
+                            <p class="text-gray-500 text-xs mt-2 uppercase tracking-widest" data-i18n="stat_proj">Proyek Selesai</p>
                         </div>
                     </div>
 
                     <div class="glass-card p-8">
                         <h4 class="text-xl font-bold mb-6 flex items-center">
-                            <i class="fas fa-briefcase mr-3 text-blue-500"></i> Pengalaman Karier
+                            <i class="fas fa-briefcase mr-3 text-blue-500"></i> <span data-i18n="career_title">Pengalaman Kerjaya</span>
                         </h4>
                         <div class="space-y-6 border-l border-gray-800 ml-2 pl-6 relative">
                             <div class="relative">
                                 <span class="absolute -left-[31px] top-1 w-3 h-3 bg-blue-500 rounded-full"></span>
                                 <h5 class="font-bold text-white">ISMP Multimedia Specialist</h5>
                                 <p class="text-xs text-blue-400 mb-2">2023 - Sekarang</p>
-                                <p class="text-sm text-gray-500">Mengelola aset multimedia dan mengembangkan solusi web internal.</p>
+                                <p class="text-sm text-gray-500" data-i18n="career_desc">Menguruskan aset multimedia dan membangunkan penyelesaian web dalaman.</p>
                             </div>
                         </div>
                     </div>
@@ -336,21 +368,16 @@
 
             <div class="mt-24">
                 <div class="text-center mb-10">
-                    <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2">Kenali Saya Lebih Dekat</p>
+                    <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2" data-i18n="vid_label">Kenali Saya Lebih Dekat</p>
                     <h3 class="text-3xl font-bold text-white">Video Introduction</h3>
                 </div>
                 <div class="max-w-4xl mx-auto">
                     <div class="glass-card p-4">
                         <div class="video-container">
-    <iframe 
-        src="https://www.youtube.com/embed/TO_ScvoJNQ0?si=ehIgNRbxIoN-Dase" 
-        title="Alif Daniel Introduction Video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-</div>
+                            <iframe src="https://www.youtube.com/embed/TO_ScvoJNQ0?si=ehIgNRbxIoN-Dase" title="Alif Daniel Introduction Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                         <div class="mt-6 px-4 pb-2">
-                            <p class="text-gray-400 text-center italic text-sm">
+                            <p class="text-gray-400 text-center italic text-sm" data-i18n="vid_desc">
                                 "Satu minit mengenai visi saya dalam menggabungkan teknologi dan estetika kreatif."
                             </p>
                         </div>
@@ -360,96 +387,298 @@
 
             <div class="mt-20 max-w-5xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
                     <div class="resume-card p-8 rounded-3xl group flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-6">
-                            <div class="doc-icon-box">
-                                <i class="fas fa-file-invoice"></i>
-                            </div>
+                            <div class="doc-icon-box"><i class="fas fa-file-invoice"></i></div>
                             <span class="text-[10px] font-black text-blue-400 tracking-[0.2em] uppercase bg-blue-400/10 px-3 py-1 rounded-full">Professional</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-white mb-2">Resume Kerja</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">Ringkasan pengalaman kerja, kemahiran teknikal, dan pencapaian profesional saya dalam bidang multimedia.</p>
+                            <h3 class="text-2xl font-bold text-white mb-2" data-i18n="res_title">Resume Kerja</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="res_desc">Ringkasan pengalaman kerja, kemahiran teknikal, dan pencapaian profesional saya dalam bidang multimedia.</p>
                         </div>
-                        <a href="link-resume-anda.pdf" download class="btn-premium w-full py-4 rounded-2xl text-center text-sm font-extrabold uppercase tracking-widest flex items-center justify-center space-x-3">
+                        <a href="resumealep.pdf" download class="btn-premium w-full py-4 rounded-2xl text-center text-sm font-extrabold uppercase tracking-widest flex items-center justify-center space-x-3">
                             <i class="fas fa-cloud-download-alt text-lg"></i>
-                            <span>Muat Turun Resume</span>
+                            <span data-i18n="res_btn">Muat Turun Resume</span>
                         </a>
                     </div>
 
                     <div class="resume-card p-8 rounded-3xl group flex flex-col justify-between border-blue-500/20 shadow-2xl shadow-blue-500/5">
                         <div class="flex justify-between items-start mb-6">
-                            <div class="doc-icon-box" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.2);">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
+                            <div class="doc-icon-box" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.2);"><i class="fas fa-graduation-cap"></i></div>
                             <span class="text-[10px] font-black text-blue-400 tracking-[0.2em] uppercase bg-blue-400/10 px-3 py-1 rounded-full">Academic</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-white mb-2">Curriculum Vitae</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">Dokumen lengkap merangkumi latar belakang pendidikan, penglibatan kokurikulum, dan sijil kemahiran multimedia.</p>
+                            <h3 class="text-2xl font-bold text-white mb-2" data-i18n="cv_title">Curriculum Vitae</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n="cv_desc">Dokumen lengkap merangkumi latar belakang pendidikan, penglibatan kokurikulum, dan sijil kemahiran multimedia.</p>
                         </div>
-                        <a href="link-cv-anda.pdf" download class="btn-premium w-full py-4 rounded-2xl text-center text-sm font-extrabold uppercase tracking-widest flex items-center justify-center space-x-3">
-                            <i class="fas fa-file-pdf text-lg"></i>
-                            <span>Muat Turun CV</span>
-                        </a>
+                        <div class="flex gap-4">
+                            <button onclick="openCVModal()" class="btn-premium flex-1 py-4 rounded-2xl text-center text-sm font-extrabold uppercase tracking-widest flex items-center justify-center space-x-2">
+                                <i class="fas fa-eye text-lg"></i>
+                                <span data-i18n="cv_view">Lihat CV</span>
+                            </button>
+                            <a href="cvaleppp.pdf" download class="bg-white/10 hover:bg-white/20 border border-white/20 flex-[0.4] py-4 rounded-2xl text-center text-sm font-extrabold uppercase tracking-widest flex items-center justify-center transition" title="Muat Turun Fail PDF">
+                                <i class="fas fa-file-pdf text-lg"></i>
+                            </a>
+                        </div>
                     </div>
-
                 </div>
-                <p class="text-center mt-8 text-gray-600 text-[10px] uppercase tracking-[0.4em]">Terakhir dikemas kini: April 2026</p>
+                <p class="text-center mt-8 text-gray-600 text-[10px] uppercase tracking-[0.4em]" data-i18n="upd_date">Terakhir dikemas kini: April 2026</p>
             </div>
-            </div>
+        </div>
     </section>
 
-    <section id="proyek" class="py-20 px-8 md:px-24">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div>
-                <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2">Portfolio</p>
-                <h2 class="text-4xl font-bold">Karya Terbaru</h2>
+    <section id="skills" class="py-24 px-8 md:px-24 border-t border-white/5 bg-[#050505] relative overflow-hidden">
+        
+        <div class="skills-bg-grid"></div>
+
+        <div class="absolute top-[10%] left-[15%] w-[30rem] h-[30rem] bg-blue-600/30 rounded-full blur-[120px] pointer-events-none animate-orb-1 z-0"></div>
+        <div class="absolute bottom-[10%] right-[15%] w-[35rem] h-[35rem] bg-purple-600/20 rounded-full blur-[130px] pointer-events-none animate-orb-2 z-0"></div>
+        <div class="absolute top-[60%] left-[40%] w-[20rem] h-[20rem] bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none animate-orb-1 z-0" style="animation-delay: 3s; animation-duration: 25s;"></div>
+
+        <div class="mb-16 text-center reveal-skill relative z-10">
+            <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2" data-i18n="skills_label">Kepakaran</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white" data-i18n="skills_title">Kemahiran Teknikal & Insaniah</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto relative z-10">
+            
+            <div class="glass-card neon-card neon-blue p-8 shadow-2xl reveal-skill delay-100 bg-[#0a0a0a]/80 backdrop-blur-xl border-white/10">
+                <h3 class="text-2xl font-bold text-white mb-8 flex items-center border-b border-white/10 pb-4">
+                    <i class="fas fa-laptop-code mr-4 text-blue-500 text-3xl"></i>
+                    <span data-i18n="tech_skills_title">Kemahiran Teknikal</span>
+                </h3>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-gray-200 tracking-wide" data-i18n="skill_uiux">Reka Bentuk UI/UX (Figma)</span>
+                            <span class="text-blue-400 font-bold">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden relative">
+                            <div class="progress-fill bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full absolute top-0 left-0 transition-all duration-[1.5s] ease-out w-0 shadow-[0_0_10px_rgba(59,130,246,0.8)]" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-gray-200 tracking-wide" data-i18n="skill_web">Pembangunan Web (HTML/CSS/JS)</span>
+                            <span class="text-blue-400 font-bold">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden relative">
+                            <div class="progress-fill bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full absolute top-0 left-0 transition-all duration-[1.5s] ease-out w-0 shadow-[0_0_10px_rgba(59,130,246,0.8)] delay-100" data-width="85%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-gray-200 tracking-wide" data-i18n="skill_anim">Animasi 2D & Video Editing</span>
+                            <span class="text-blue-400 font-bold">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden relative">
+                            <div class="progress-fill bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full absolute top-0 left-0 transition-all duration-[1.5s] ease-out w-0 shadow-[0_0_10px_rgba(59,130,246,0.8)] delay-200" data-width="80%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-gray-200 tracking-wide" data-i18n="skill_mobile">Pembangunan App (Flutter/Android Studio)</span>
+                            <span class="text-blue-400 font-bold">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden relative">
+                            <div class="progress-fill bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full absolute top-0 left-0 transition-all duration-[1.5s] ease-out w-0 shadow-[0_0_10px_rgba(59,130,246,0.8)] delay-300" data-width="75%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-gray-200 tracking-wide" data-i18n="skill_design">Adobe Creative Suite (Ps, Ai)</span>
+                            <span class="text-blue-400 font-bold">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden relative">
+                            <div class="progress-fill bg-gradient-to-r from-blue-600 to-cyan-400 h-2 rounded-full absolute top-0 left-0 transition-all duration-[1.5s] ease-out w-0 shadow-[0_0_10px_rgba(59,130,246,0.8)] delay-[400ms]" data-width="85%"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="#" class="text-gray-400 hover:text-white text-sm underline mt-4 md:mt-0">Lihat Semua Proyek</a>
+
+            <div class="glass-card neon-card neon-purple p-8 shadow-2xl reveal-skill delay-300 bg-[#0a0a0a]/80 backdrop-blur-xl border-white/10">
+                <h3 class="text-2xl font-bold text-white mb-8 flex items-center border-b border-white/10 pb-4">
+                    <i class="fas fa-users mr-4 text-purple-400 text-3xl"></i>
+                    <span data-i18n="soft_skills_title">Kemahiran Insaniah</span>
+                </h3>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-5 rounded-2xl text-center hover:bg-white/10 transition duration-300 group">
+                        <div class="w-14 h-14 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center mb-4 floating-icon float-delay-1 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                            <i class="fas fa-puzzle-piece text-2xl text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-sm text-gray-200" data-i18n="skill_prob">Penyelesaian Masalah</h4>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-5 rounded-2xl text-center hover:bg-white/10 transition duration-300 group">
+                        <div class="w-14 h-14 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center mb-4 floating-icon float-delay-2 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                            <i class="fas fa-comments text-2xl text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-sm text-gray-200" data-i18n="skill_comm">Komunikasi</h4>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-5 rounded-2xl text-center hover:bg-white/10 transition duration-300 group">
+                        <div class="w-14 h-14 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center mb-4 floating-icon float-delay-3 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                            <i class="fas fa-crown text-2xl text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-sm text-gray-200" data-i18n="skill_lead">Kepimpinan</h4>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-5 rounded-2xl text-center hover:bg-white/10 transition duration-300 group">
+                        <div class="w-14 h-14 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center mb-4 floating-icon float-delay-4 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                            <i class="fas fa-clock text-2xl text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-sm text-gray-200" data-i18n="skill_time">Pengurusan Masa</h4>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-5 rounded-2xl text-center hover:bg-white/10 transition duration-300 group col-span-2">
+                        <div class="w-14 h-14 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center mb-4 floating-icon float-delay-5 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                            <i class="fas fa-sync-alt text-2xl text-purple-400"></i>
+                        </div>
+                        <h4 class="font-semibold text-sm text-gray-200" data-i18n="skill_adapt">Kebolehubahsuaian (Adaptability)</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="cvModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-8">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeCVModal()"></div>
+        <div class="glass-card relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-[#0d0d0d] p-6 md:p-10 shadow-2xl">
+            <button onclick="closeCVModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-2xl z-10">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="text-center mb-10 border-b border-gray-800 pb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Muhammad Alif Daniel Bin Abd Rahman</h2>
+                <p class="text-blue-400 font-medium tracking-widest uppercase text-sm">ISMP Multimedia Specialist</p>
+                <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs text-gray-400">
+                    <span><i class="fas fa-envelope mr-2"></i>d20231106554@siswa.upsi.edu.my</span>
+                    <span><i class="fas fa-phone mr-2"></i>+60189490784</span>
+                    <span><i class="fas fa-map-marker-alt mr-2"></i>Padang Serai, Kedah</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-blue-500/30 pb-2 inline-block"><i class="fas fa-user-graduate mr-2 text-blue-500"></i>Pendidikan</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-blue-300">Universiti Pendidikan Sultan Idris (UPSI)</h4>
+                                <p class="text-sm text-white">Ijazah Sarjana Muda Pendidikan (Multimedia) dengan Kepujian</p>
+                                <p class="text-xs text-gray-500">2023-2027 | 3.78 CGPA</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-300">SMK Agama Al-Masoor (L)</h4>
+                                <p class="text-sm text-white">Sijil Tinggi Pelajaran Malaysia (STPM)</p>
+                                <p class="text-xs text-gray-500">2021-2023 | 2.84 CGPA</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-300">SMA Daeratul Maarifil Wataniah 2</h4>
+                                <p class="text-sm text-white">Sijil Pelajaran Malaysia (SPM)</p>
+                                <p class="text-xs text-gray-500">2016-2020 | 2A, 4B, 3C, 1D</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-blue-500/30 pb-2 inline-block"><i class="fas fa-trophy mr-2 text-blue-500"></i>Anugerah & Kepimpinan</h3>
+                        <ul class="space-y-3 text-sm text-gray-300">
+                            <li><strong class="text-white">Anugerah Dekan:</strong> UPSI (Semester 1, 2, 3 & 5)</li>
+                            <li><strong class="text-white">Anugerah Inovasi Digital:</strong> Kategori Pembangunan Web</li>
+                            <li><strong class="text-white">Fasilitator Kem BIB:</strong> Program Bina Insan Budiman</li>
+                            <li><strong class="text-white">Exco Publisiti & Multimedia:</strong> Menguruskan kempen & platform digital</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-blue-500/30 pb-2 inline-block"><i class="fas fa-briefcase mr-2 text-blue-500"></i>Pengalaman & Projek</h3>
+                        <div class="space-y-4">
+                            <div class="border-l-2 border-blue-500 pl-4">
+                                <h4 class="font-bold text-white">Pembangunan Permainan & Aplikasi Mudah Alih</h4>
+                                <p class="text-xs text-gray-400 mt-1">Membangunkan aplikasi pendidikan 'Math Pintar' dan permainan digital 2D 'MathVenture' berkonsep platformer.</p>
+                            </div>
+                            <div class="border-l-2 border-blue-500 pl-4">
+                                <h4 class="font-bold text-white">UI/UX & Reka Bentuk Prototaip</h4>
+                                <p class="text-xs text-gray-400 mt-1">Menghasilkan prototaip interaktif 'SmartWallet' (Figma) serta mengekod laman web untuk SMT Tuanku Jaafar.</p>
+                            </div>
+                            <div class="border-l-2 border-blue-500 pl-4">
+                                <h4 class="font-bold text-white">Animasi 2D & Manipulasi Grafik</h4>
+                                <p class="text-xs text-gray-400 mt-1">Menerbitkan video animasi 'Daniel si Bijak' sebagai kempen anti-scam, serta mereka bentuk material visual menggunakan Adobe Suite.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-blue-500/30 pb-2 inline-block"><i class="fas fa-laptop-code mr-2 text-blue-500"></i>Kemahiran Teknikal</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Figma</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Flutter</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Android Studio</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">HTML/CSS</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Adobe Premiere / Capcut</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Adobe Animate</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Adobe Photoshop / Illustrator</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Blender</span>
+                            <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded">Github</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 pt-6 border-t border-gray-800 text-center">
+                <a href="cvaleppp.pdf" download class="inline-flex items-center space-x-2 px-8 py-3 bg-blue-600 hover:bg-blue-500 rounded-full text-sm font-bold transition shadow-lg shadow-blue-500/20">
+                    <i class="fas fa-download"></i>
+                    <span>Muat Turun Dokumen Asal PDF</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section id="proyek" class="py-20 px-8 md:px-24">
+        <div class="mb-12">
+            <p class="text-blue-500 font-bold tracking-widest uppercase text-xs mb-2" data-i18n="port_label">Portfolio</p>
+            <h2 class="text-4xl font-bold" data-i18n="port_title">Karya Terbaru</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="glass-card p-4 group">
+            <div class="glass-card p-4 group cursor-pointer" onclick="openProjectModal(0)">
                 <div class="project-img-container mb-4">
-                    <img src="https://via.placeholder.com/600x400/111/eee?text=E-Commerce+Project" alt="Project 1" class="w-full h-48 object-cover">
+                    <img src="icon2.jpg" alt="Ejen Alif" class="w-full h-48 object-cover">
                 </div>
-                <p class="text-xs text-blue-400 font-bold mb-2">WEB DEVELOPMENT</p>
-                <h3 class="text-xl font-bold mb-2">Modern E-Commerce Platform</h3>
-                <p class="text-gray-500 text-sm mb-4">Membangun pengalaman belanja yang lancar dengan React dan Tailwind CSS.</p>
+                <p class="text-xs text-blue-400 font-bold mb-2">WEB DEV / E-LEARNING</p>
+                <h3 class="text-xl font-bold mb-2">Ejen Alif (Marbel Protocol)</h3>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-2" data-i18n="proj1_short">Platform pembelajaran interaktif berkonsep perisikan untuk Asas Sains Komputer.</p>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">React</span>
-                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">Node.js</span>
+                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">HTML5</span>
+                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">JS</span>
+                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">CSS</span>
                     </div>
                     <i class="fas fa-arrow-right text-gray-500 group-hover:text-white group-hover:translate-x-2 transition"></i>
                 </div>
             </div>
 
-            <div class="glass-card p-4 group">
+            <div class="glass-card p-4 group cursor-pointer" onclick="openProjectModal(1)">
                 <div class="project-img-container mb-4">
-                    <img src="https://via.placeholder.com/600x400/111/eee?text=Fintech+App+UI" alt="Project 2" class="w-full h-48 object-cover">
+                    <img src="icon1.jpg" alt="Daniel si Bijak" class="w-full h-48 object-cover">
                 </div>
-                <p class="text-xs text-purple-400 font-bold mb-2">UI/UX DESIGN</p>
-                <h3 class="text-xl font-bold mb-2">Fintech Mobile App</h3>
-                <p class="text-gray-500 text-sm mb-4">Rekaan antaramuka yang bersih untuk aplikasi pengurusan kewangan peribadi.</p>
+                <p class="text-xs text-purple-400 font-bold mb-2">2D ANIMATION</p>
+                <h3 class="text-xl font-bold mb-2">Animasi 'Daniel si Bijak'</h3>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-2" data-i18n="proj2_short">Video animasi 2D kempen kesedaran mengelakkan ancaman scammer.</p>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
-                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">Figma</span>
-                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">UX Research</span>
+                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">Animate</span>
+                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded">Video</span>
                     </div>
                     <i class="fas fa-arrow-right text-gray-500 group-hover:text-white group-hover:translate-x-2 transition"></i>
                 </div>
             </div>
 
-            <div class="glass-card p-4 group">
+            <div class="glass-card p-4 group cursor-pointer" onclick="openProjectModal(2)">
                 <div class="project-img-container mb-4">
-                    <img src="https://via.placeholder.com/600x400/111/eee?text=Personal+Brand" alt="Project 3" class="w-full h-48 object-cover">
+                    <img src="icon3.jpg" alt="Project 3" class="w-full h-48 object-cover">
                 </div>
                 <p class="text-xs text-green-400 font-bold mb-2">BRANDING</p>
                 <h3 class="text-xl font-bold mb-2">Personal Branding Kit</h3>
-                <p class="text-gray-500 text-sm mb-4">Identiti visual lengkap untuk profesional dalam industri kreatif.</p>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-2" data-i18n="proj3_short">Identiti visual lengkap untuk profesional dalam industri kreatif.</p>
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-2">
                         <span class="text-[10px] bg-white/10 px-2 py-1 rounded">Illustrator</span>
@@ -461,74 +690,119 @@
         </div>
     </section>
 
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-8 overflow-y-auto">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="glass-card relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#0d0d0d] p-6 md:p-10 shadow-2xl my-auto">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-2xl z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="project-img-container h-fit border border-gray-800 rounded-xl">
+                    <img id="modalImage" src="" alt="Project Preview" class="w-full object-cover">
+                </div>
+                <div class="space-y-6 text-left">
+                    <div>
+                        <p id="modalCategory" class="text-xs text-blue-400 font-bold mb-2 uppercase tracking-widest"></p>
+                        <h3 id="modalTitle" class="text-3xl font-bold text-white"></h3>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-semibold text-blue-500 border-b border-white/10 pb-2" data-i18n="modal_about">Tentang Projek</h4>
+                        <p id="modalDescription" class="text-gray-400 leading-relaxed text-sm text-justify"></p>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-semibold text-blue-500" data-i18n="modal_tech">Teknologi</h4>
+                        <div id="modalTags" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <a id="modalLiveBtn" href="#" target="_blank" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-full text-sm font-bold transition flex-1 text-center flex items-center justify-center gap-2">
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="modal_live">View Live</span>
+                        </a>
+                        
+                        <button id="modalGalleryBtn" onclick="toggleGallery()" class="px-6 py-3 border border-blue-500/50 hover:bg-blue-500/10 text-blue-400 rounded-full text-sm font-bold transition flex-1 text-center flex items-center justify-center gap-2">
+                            <i class="fas fa-images"></i> <span data-i18n="modal_gallery">Lihat Galeri</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="galleryContainer" class="hidden mt-8 pt-8 border-t border-gray-800 w-full animate-[fadeIn_0.3s_ease-out]">
+                <h4 class="text-xl font-bold text-blue-500 mb-4" data-i18n="modal_gallery_title">Galeri Projek Tambahan</h4>
+                <p class="text-sm text-gray-500 mb-6">Ruangan ini disediakan untuk memaparkan gambar-gambar projek yang lain di masa hadapan.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="galleryImages">
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="imageLightbox" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/95 backdrop-blur-sm transition-all duration-300 opacity-0" onclick="closeLightbox()">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl z-10 transition">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="lightboxImage" src="" alt="Zoomed Image" class="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+    </div>
+
     <section class="py-20 px-8 md:px-24 border-t border-white/5">
-        <h2 class="text-center text-3xl font-bold mb-12">Creative & Tech Stack</h2>
+        <h2 class="text-center text-3xl font-bold mb-12" data-i18n="tech_title">Kemahiran Kreatif & Teknologi</h2>
         <div class="grid grid-cols-3 md:grid-cols-6 gap-6">
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-blue-600/20 transition cursor-pointer">
-                <i class="fab fa-react text-3xl mb-2 text-blue-400"></i>
-                <span class="text-xs">React</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-sky-500/20 transition cursor-pointer">
-                <i class="fab fa-css3-alt text-3xl mb-2 text-sky-400"></i>
-                <span class="text-xs">Tailwind</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-orange-500/20 transition cursor-pointer">
-                <i class="fab fa-html5 text-3xl mb-2 text-orange-500"></i>
-                <span class="text-xs">HTML5</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-yellow-500/20 transition cursor-pointer">
-                <i class="fab fa-js text-3xl mb-2 text-yellow-500"></i>
-                <span class="text-xs">JavaScript</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-purple-500/20 transition cursor-pointer">
-                <i class="fab fa-figma text-3xl mb-2 text-purple-400"></i>
-                <span class="text-xs">Figma</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col items-center hover:bg-green-500/20 transition cursor-pointer">
-                <i class="fab fa-node-js text-3xl mb-2 text-green-500"></i>
-                <span class="text-xs">Node.js</span>
-            </div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-orange-500/20 transition cursor-pointer"><i class="fab fa-html5 text-3xl mb-2 text-orange-500"></i><span class="text-xs">HTML5</span></div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-yellow-500/20 transition cursor-pointer"><i class="fab fa-js text-3xl mb-2 text-yellow-500"></i><span class="text-xs">JavaScript</span></div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-purple-500/20 transition cursor-pointer"><i class="fab fa-figma text-3xl mb-2 text-purple-400"></i><span class="text-xs">Figma</span></div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-sky-400/20 transition cursor-pointer"><i class="fas fa-mobile-alt text-3xl mb-2 text-sky-400"></i><span class="text-xs">Flutter</span></div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-green-500/20 transition cursor-pointer"><i class="fab fa-android text-3xl mb-2 text-green-500"></i><span class="text-[11px] text-center mt-1 leading-tight">Android<br>Studio</span></div>
+            <div class="glass-card p-6 flex flex-col items-center hover:bg-blue-500/20 transition cursor-pointer"><i class="fas fa-palette text-3xl mb-2 text-blue-500"></i><span class="text-xs">Photoshop</span></div>
         </div>
     </section>
 
     <section id="kontak" class="py-20 px-8 md:px-24 border-t border-white/5">
         <div class="glass-card p-8 md:p-16 flex flex-col md:flex-row gap-12">
             <div class="md:w-1/2">
-                <h2 class="text-4xl font-bold mb-6">Mari Berbincang <br><span class="text-blue-500">Tentang Projek Anda</span></h2>
-                <p class="text-gray-400 mb-8 max-w-sm">Saya sentiasa terbuka untuk kolaborasi atau peluang pekerjaan baru. Hantarkan mesej dan saya akan balas secepat mungkin.</p>
+                <h2 class="text-4xl font-bold mb-6" data-i18n="contact_title">Mari Berbincang <br><span class="text-blue-500">Tentang Projek Anda</span></h2>
+                <p class="text-gray-400 mb-8 max-w-sm" data-i18n="contact_desc">Saya sentiasa terbuka untuk kolaborasi atau peluang pekerjaan baru. Hantarkan mesej dan saya akan balas secepat mungkin.</p>
                 
                 <div class="space-y-6">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500"><i class="fas fa-envelope"></i></div>
                         <div>
                             <p class="text-xs text-gray-500 uppercase font-bold">Email</p>
-                            <p class="text-sm">alifdaniel@example.com</p>
+                            <p class="text-sm">d20231106554@siswa.upsi.edu.my</p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
+                        <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500"><i class="fab fa-whatsapp"></i></div>
                         <div>
                             <p class="text-xs text-gray-500 uppercase font-bold">WhatsApp</p>
-                            <p class="text-sm">+62 812 3456 7890</p>
+                            <a href="https://wa.me/60189490784" target="_blank" class="text-sm hover:text-green-400 transition">+60 189490784</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-[#0a66c2]/10 flex items-center justify-center text-[#0a66c2]"><i class="fab fa-linkedin-in text-xl"></i></div>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase font-bold">LinkedIn</p>
+                            <a href="https://www.linkedin.com/in/muhammad-alif-daniel-bin-abd-rahman-0a1318406" target="_blank" class="text-sm hover:text-[#0a66c2] transition">Muhammad Alif Daniel</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-[#E1306C]/10 flex items-center justify-center text-[#E1306C]"><i class="fab fa-instagram text-xl"></i></div>
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase font-bold">Instagram</p>
+                            <a href="https://www.instagram.com/fylepp" target="_blank" class="text-sm hover:text-[#E1306C] transition">@fylepp</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="md:w-1/2">
-                <form class="space-y-4">
+                <form onsubmit="sendToWhatsApp(event)" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" placeholder="Nama Penuh" class="w-full p-4 rounded-xl focus:outline-none">
-                        <input type="email" placeholder="Alamat Email" class="w-full p-4 rounded-xl focus:outline-none">
+                        <input type="text" id="waName" placeholder="Nama Penuh" data-i18n-ph="form_name" required class="w-full p-4 rounded-xl focus:outline-none">
+                        <input type="email" id="waEmail" placeholder="Alamat E-mel" data-i18n-ph="form_email" required class="w-full p-4 rounded-xl focus:outline-none">
                     </div>
-                    <input type="text" placeholder="Subjek" class="w-full p-4 rounded-xl focus:outline-none">
-                    <textarea placeholder="Mesej Anda" rows="5" class="w-full p-4 rounded-xl focus:outline-none"></textarea>
-                    <button class="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition shadow-lg shadow-blue-500/20">
-                        Hantar Mesej Sekarang
+                    <input type="text" id="waSubject" placeholder="Subjek" data-i18n-ph="form_subject" class="w-full p-4 rounded-xl focus:outline-none">
+                    <textarea id="waMessage" placeholder="Mesej Anda" data-i18n-ph="form_message" rows="5" required class="w-full p-4 rounded-xl focus:outline-none"></textarea>
+                    
+                    <button type="submit" class="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition shadow-lg shadow-blue-500/20" data-i18n="form_btn">
+                        Hantar Mesej Sekarang (via WhatsApp)
                     </button>
                 </form>
             </div>
@@ -538,34 +812,445 @@
     <footer class="py-12 px-8 text-center border-t border-gray-900">
         <div class="text-2xl font-bold mb-6">Alepp<span class="text-blue-500">.</span></div>
         <div class="flex justify-center space-x-6 mb-8 text-gray-500">
-            <a href="#" class="hover:text-white transition">Beranda</a>
-            <a href="#about" class="hover:text-white transition">Tentang</a>
-            <a href="#proyek" class="hover:text-white transition">Proyek</a>
-            <a href="#kontak" class="hover:text-white transition">Kontak</a>
+            <a href="#" class="hover:text-white transition" data-i18n="nav_home">Utama</a>
+            <a href="#about" class="hover:text-white transition" data-i18n="nav_about">Tentang</a>
+            <a href="#skills" class="hover:text-white transition" data-i18n="nav_skills">Kemahiran</a>
+            <a href="#proyek" class="hover:text-white transition" data-i18n="nav_projects">Projek</a>
+            <a href="#kontak" class="hover:text-white transition" data-i18n="nav_contact">Hubungi</a>
         </div>
-        <p class="text-xs text-gray-700 uppercase tracking-widest">© 2026 ALIF DANIEL. Crafted with Precision.</p>
+        <p class="text-xs text-gray-700 uppercase tracking-widest" data-i18n="footer_copy">© 2026 ALIF DANIEL. Dicipta dengan Teliti.</p>
     </footer>
 
     <script>
+        // --- 🌐 MULTILINGUAL SYSTEM (EN, MS, ID) 🌐 ---
+        const translations = {
+            "nav_home": { en: "Home", ms: "Utama", id: "Beranda" },
+            "nav_about": { en: "About", ms: "Tentang", id: "Tentang" },
+            "nav_skills": { en: "Skills", ms: "Kemahiran", id: "Keahlian" },
+            "nav_projects": { en: "Projects", ms: "Projek", id: "Proyek" },
+            "nav_contact": { en: "Contact", ms: "Hubungi", id: "Kontak" },
+
+            "hero_greet": { en: "Hello, I am", ms: "Helo, Saya", id: "Halo, Saya" },
+            "hero_desc": {
+                en: "I help businesses and individuals transform ideas into beautiful and highly functional digital solutions.",
+                ms: "Saya membantu perniagaan dan individu mengubah idea menjadi penyelesaian digital yang cantik dan berfungsi dengan baik.",
+                id: "Saya membantu bisnis dan individu mengubah ide menjadi solusi digital yang indah dan berfungsi dengan baik."
+            },
+            "btn_projects": { en: "View Projects", ms: "Lihat Projek", id: "Lihat Proyek" },
+            "btn_contact": { en: "Contact Me", ms: "Hubungi Saya", id: "Kontak Saya" },
+
+            "about_label": { en: "About Me", ms: "Tentang Saya", id: "Tentang Saya" },
+            "about_title": { en: "Creating Meaningful Digital Experiences", ms: "Mencipta Pengalaman Digital yang Bermakna", id: "Menciptakan Pengalaman Digital yang Bermakna" },
+            "about_p1": {
+                en: "I am a <span class='text-white font-semibold'>Multimedia Specialist</span> with a deep focus on web development and interface design. My journey began out of curiosity about how technology can help humans solve problems more elegantly.",
+                ms: "Saya adalah seorang <span class='text-white font-semibold'>Pakar Multimedia</span> dengan fokus mendalam pada pembangunan web dan rekaan antaramuka. Perjalanan saya bermula dari rasa ingin tahu bagaimana teknologi dapat membantu manusia menyelesaikan masalah dengan cara yang lebih elegan.",
+                id: "Saya adalah seorang <span class='text-white font-semibold'>Multimedia Specialist</span> dengan fokus mendalam pada pengembangan web dan desain antarmuka. Perjalanan saya dimulai dari rasa penasaran bagaimana teknologi dapat membantu manusia menyelesaikan masalah dengan cara yang lebih elegan."
+            },
+            "about_p2": {
+                en: "As an <span class='text-blue-400'>ISMP Multimedia Specialist</span>, I combine the technical aspects of programming with visual aesthetics to ensure every project not only 'works' but also leaves an unforgettable impression on its users.",
+                ms: "Sebagai <span class='text-blue-400'>Pakar Multimedia ISMP</span>, saya menggabungkan aspek teknikal pengaturcaraan dengan estetika visual untuk memastikan setiap projek bukan sahaja 'berfungsi', tapi juga memberikan kesan yang tidak dapat dilupakan bagi penggunanya.",
+                id: "Sebagai <span class='text-blue-400'>ISMP Multimedia Specialist</span>, saya menggabungkan aspek teknis pemrograman dengan estetika visual untuk memastikan setiap proyek tidak hanya 'bekerja', tapi juga memberikan kesan yang tak terlupakan bagi penggunanya."
+            },
+            
+            "ps_title": { en: "Problem Solver", ms: "Penyelesai Masalah", id: "Penyelesai Masalah" },
+            "ps_desc": { en: "Solving technical challenges with clean logic.", ms: "Menyelesaikan cabaran teknikal dengan logik bersih.", id: "Menyelesaikan tantangan teknis dengan logika bersih." },
+            "do_title": { en: "Detail Oriented", ms: "Mementingkan Butiran", id: "Mementingkan Detail" },
+            "do_desc": { en: "Ensuring precision on every pixel.", ms: "Memastikan ketepatan pada setiap piksel.", id: "Memastikan presisi pada setiap piksel." },
+
+            "stat_exp": { en: "Years Experience", ms: "Tahun Pengalaman", id: "Tahun Pengalaman" },
+            "stat_proj": { en: "Projects Completed", ms: "Projek Selesai", id: "Proyek Selesai" },
+
+            "career_title": { en: "Career Experience", ms: "Pengalaman Kerjaya", id: "Pengalaman Karier" },
+            "career_desc": { en: "Managing multimedia assets and developing internal web solutions.", ms: "Menguruskan aset multimedia dan membangunkan penyelesaian web dalaman.", id: "Mengelola aset multimedia dan mengembangkan solusi web internal." },
+
+            "vid_label": { en: "Get to Know Me Better", ms: "Kenali Saya Lebih Dekat", id: "Kenali Saya Lebih Dekat" },
+            "vid_desc": { en: "\"One minute about my vision in combining technology and creative aesthetics.\"", ms: "\"Satu minit mengenai visi saya dalam menggabungkan teknologi dan estetika kreatif.\"", id: "\"Satu menit mengenai visi saya dalam menggabungkan teknologi dan estetika kreatif.\"" },
+
+            "res_title": { en: "Work Resume", ms: "Resume Kerja", id: "Resume Kerja" },
+            "res_desc": { en: "Summary of my work experience, technical skills, and professional achievements.", ms: "Ringkasan pengalaman kerja, kemahiran teknikal, dan pencapaian profesional saya dalam bidang multimedia.", id: "Ringkasan pengalaman kerja, keterampilan teknis, dan pencapaian profesional saya." },
+            "res_btn": { en: "Download Resume", ms: "Muat Turun Resume", id: "Unduh Resume" },
+
+            "cv_title": { en: "Curriculum Vitae", ms: "Curriculum Vitae", id: "Curriculum Vitae" },
+            "cv_desc": { en: "Comprehensive document covering education, co-curricular involvement, and skills.", ms: "Dokumen lengkap merangkumi latar belakang pendidikan, kokurikulum, dan sijil kemahiran.", id: "Dokumen lengkap mencakup latar belakang pendidikan, ekstrakurikuler, dan sertifikat." },
+            "cv_btn": { en: "Download CV", ms: "Muat Turun CV", id: "Unduh CV" },
+            "cv_view": { en: "View CV", ms: "Lihat CV", id: "Lihat CV" },
+
+            "upd_date": { en: "Last updated: April 2026", ms: "Terakhir dikemas kini: April 2026", id: "Terakhir diperbarui: April 2026" },
+
+            // --- SKILLS TRANSLATIONS ---
+            "skills_label": { en: "Expertise", ms: "Kepakaran", id: "Keahlian" },
+            "skills_title": { en: "Technical & Soft Skills", ms: "Kemahiran Teknikal & Insaniah", id: "Keterampilan Teknis & Soft Skills" },
+            "tech_skills_title": { en: "Technical Skills", ms: "Kemahiran Teknikal", id: "Keterampilan Teknis" },
+            "soft_skills_title": { en: "Soft Skills", ms: "Kemahiran Insaniah", id: "Soft Skills" },
+            "skill_uiux": { en: "UI/UX Design (Figma)", ms: "Reka Bentuk UI/UX (Figma)", id: "Desain UI/UX (Figma)" },
+            "skill_web": { en: "Web Development (HTML/CSS/JS)", ms: "Pembangunan Web (HTML/CSS/JS)", id: "Pengembangan Web (HTML/CSS/JS)" },
+            "skill_anim": { en: "2D Animation & Video Editing", ms: "Animasi 2D & Video Editing", id: "Animasi 2D & Video Editing" },
+            "skill_mobile": { en: "App Development (Flutter)", ms: "Pembangunan App (Flutter)", id: "Pengembangan App (Flutter)" },
+            "skill_design": { en: "Adobe Creative Suite (Ps, Ai)", ms: "Adobe Creative Suite (Ps, Ai)", id: "Adobe Creative Suite (Ps, Ai)" },
+            "skill_prob": { en: "Problem Solving", ms: "Penyelesaian Masalah", id: "Pemecahan Masalah" },
+            "skill_comm": { en: "Communication", ms: "Komunikasi", id: "Komunikasi" },
+            "skill_lead": { en: "Leadership", ms: "Kepimpinan", id: "Kepemimpinan" },
+            "skill_time": { en: "Time Management", ms: "Pengurusan Masa", id: "Manajemen Waktu" },
+            "skill_adapt": { en: "Adaptability", ms: "Kebolehubahsuaian (Adaptability)", id: "Adaptabilitas" },
+
+            "port_label": { en: "Portfolio", ms: "Portfolio", id: "Portofolio" },
+            "port_title": { en: "Latest Works", ms: "Karya Terbaru", id: "Karya Terbaru" },
+
+            "proj1_short": { en: "Spy-themed interactive learning platform for Computer Science basics.", ms: "Platform pembelajaran interaktif berkonsep perisikan untuk Asas Sains Komputer.", id: "Platform pembelajaran interaktif berkonsep intelijen untuk Dasar Ilmu Komputer." },
+            "proj2_short": { en: "A 2D animation video campaign to educate the public on avoiding scam threats.", ms: "Video animasi 2D kempen kesedaran mengelakkan ancaman scammer.", id: "Video animasi 2D kampanye kesadaran untuk menghindari ancaman penipuan." },
+            "proj3_short": { en: "Complete visual identity for professionals in the creative industry.", ms: "Identiti visual lengkap untuk profesional dalam industri kreatif.", id: "Identitas visual lengkap untuk profesional dalam industri kreatif." },
+
+            "tech_title": { en: "Creative & Tech Stack", ms: "Kemahiran Kreatif & Teknologi", id: "Kemampuan Kreatif & Teknologi" },
+
+            "contact_title": { en: "Let's Talk <br><span class='text-blue-500'>About Your Project</span>", ms: "Mari Berbincang <br><span class='text-blue-500'>Tentang Projek Anda</span>", id: "Mari Berbincang <br><span class='text-blue-500'>Tentang Proyek Anda</span>" },
+            "contact_desc": { en: "I am always open to collaborations or new job opportunities. Send a message!", ms: "Saya sentiasa terbuka untuk kolaborasi atau peluang pekerjaan baru. Hantarkan mesej!", id: "Saya selalu terbuka untuk kolaborasi atau peluang pekerjaan baru. Kirimkan pesan!" },
+
+            "form_btn": { en: "Send Message Now (via WhatsApp)", ms: "Hantar Mesej Sekarang (via WhatsApp)", id: "Kirim Pesan Sekarang (via WhatsApp)" },
+            "footer_copy": { en: "© 2026 ALIF DANIEL. Crafted with Precision.", ms: "© 2026 ALIF DANIEL. Dicipta dengan Teliti.", id: "© 2026 ALIF DANIEL. Dibuat dengan Presisi." },
+
+            "modal_about": { en: "About Project", ms: "Tentang Projek", id: "Tentang Proyek" },
+            "modal_tech": { en: "Technologies", ms: "Teknologi", id: "Teknologi" },
+            "modal_live": { en: "View Live", ms: "Lihat Live", id: "Lihat Live" },
+            "modal_code": { en: "Source Code", ms: "Kod Sumber", id: "Kode Sumber" },
+            "modal_gallery": { en: "View Gallery", ms: "Lihat Galeri", id: "Lihat Galeri" },
+            "modal_gallery_title": { en: "Additional Project Gallery", ms: "Galeri Projek Tambahan", id: "Galeri Proyek Tambahan" }
+        };
+
+        const placeholders = {
+            "form_name": { en: "Full Name", ms: "Nama Penuh", id: "Nama Lengkap" },
+            "form_email": { en: "Email Address", ms: "Alamat E-mel", id: "Alamat Email" },
+            "form_subject": { en: "Subject", ms: "Subjek", id: "Subjek" },
+            "form_message": { en: "Your Message", ms: "Mesej Anda", id: "Pesan Anda" }
+        };
+
+        // --- DATA PROJEK YANG TELAH DIKEMAS KINI DENGAN INFO PANJANG ---
+        const projectsData = [
+            {
+                title: "Platform Ejen Alif (Marbel Protocol)", 
+                category: "WEB DEVELOPMENT / E-LEARNING", 
+                imgSrc: "icon2.jpg", 
+                tags: ['HTML5', 'CSS3', 'Vanilla JavaScript'],
+                liveUrl: "https://alifdanielhensem-creator.github.io/kidmediaAlif/",
+                gallery: ['gmbr1.jpg', 'gmbr2.jpg', 'gmbr3.jpg'], // GAMBAR DIMASUKKAN DI SINI
+                desc: {
+                    en: "An innovative e-learning platform specifically designed for Computer Science (ASK Form 3) students. By adapting a secret agent theme (Marbel Protocol), it transforms the traditional learning syllabus into a thrilling gamified experience. Featuring a futuristic sci-fi UI dashboard, the platform is equipped with an animated login system, interactive simulation missions, real cryptography encryption tools, and video tutorial modules focusing on computational thinking and databases. Developed entirely using HTML5, CSS3, and Vanilla JavaScript for optimal performance.",
+                    ms: "Platform e-pembelajaran inovatif yang direka khas untuk pelajar Asas Sains Komputer (ASK Tingkatan 3). Dengan mengadaptasi tema ejen perisik (Marbel Protocol), ia menukar silibus pembelajaran tradisional kepada pengalaman gamifikasi yang mendebarkan. Menampilkan papan pemuka UI futuristik ala sci-fi, platform ini dilengkapi dengan sistem log masuk beranimasi, misi simulasi interaktif, alat penyulitan kriptografi sebenar, serta modul tutorial video yang memfokuskan kepada pemikiran komputasional dan pangkalan data. Dibangunkan sepenuhnya menggunakan HTML5, CSS3, dan Vanilla JavaScript untuk prestasi yang optimum.",
+                    id: "Platform e-learning inovatif yang dirancang khusus untuk siswa Dasar Ilmu Komputer (ASK Tingkatan 3). Dengan mengadaptasi tema agen rahasia (Marbel Protocol), platform ini mengubah silabus pembelajaran tradisional menjadi pengalaman gamifikasi yang mendebarkan. Menampilkan dasbor UI sci-fi futuristik, platform ini dilengkapi dengan sistem login animasi, misi simulasi interaktif, alat enkripsi kriptografi nyata, serta modul tutorial video yang berfokus pada pemikiran komputasional dan basis data. Dikembangkan sepenuhnya menggunakan HTML5, CSS3, dan Vanilla JavaScript untuk kinerja optimal."
+                }
+            },
+            {
+                title: "Animasi 2D 'Daniel si Bijak'", 
+                category: "2D ANIMATION", 
+                imgSrc: "icon1.jpg",
+                tags: ['Adobe Animate', 'Character Design', 'Voice Over', 'Video Editing'],
+                liveUrl: "https://youtu.be/3dNMR5MA_Qc?si=qmKGXjjLmyAbnkTk", 
+                gallery: [], // TIADA GAMBAR UNTUK PROJEK INI
+                desc: {
+                    en: "A short 2D animation video titled 'Daniel si Bijak' produced entirely using Adobe Animate. This project serves as a digital visual awareness campaign initiative to educate the public, especially vulnerable groups, about increasingly rampant cyber scam tactics. From the storyboarding process, character design, and voice-over recording, to final video editing, every element was carefully crafted to ensure cybersecurity messages are easy to understand, interactive, and impactful to the target audience.",
+                    ms: "Video animasi 2D berdurasi pendek berjudul 'Daniel si Bijak' yang dihasilkan sepenuhnya melalui perisian Adobe Animate. Projek ini merupakan satu inisiatif kempen kesedaran visual secara digital untuk mendidik masyarakat, terutamanya golongan rentan, tentang taktik penipuan siber (scammer) yang semakin berleluasa. Bermula dari proses papan cerita (storyboarding), rekaan watak, rakaman suara latar, sehinggalah ke suntingan video akhir (Video Editing), setiap elemen digarap teliti untuk memastikan mesej keselamatan siber mudah difahami, interaktif, dan memberi impak kepada penonton sasaran.",
+                    id: "Video animasi 2D berdurasi pendek berjudul 'Daniel si Bijak' yang diproduksi sepenuhnya menggunakan Adobe Animate. Proyek ini merupakan inisiatif kampanye kesadaran visual digital untuk mendidik masyarakat, terutama kelompok rentan, tentang taktik penipuan siber (scammer) yang semakin marak. Mulai dari proses pembuatan papan cerita (storyboarding), desain karakter, perekaman suara, hingga pengeditan video akhir, setiap elemen dirancang dengan cermat untuk memastikan pesan keamanan siber mudah dipahami, interaktif, dan berdampak bagi audiens target."
+                }
+            },
+            {
+                title: "Personal Branding Kit (Aplikasi Math Pintar)", 
+                category: "BRANDING & UI/UX", 
+                imgSrc: "icon3.jpg", 
+                tags: ['Adobe Illustrator', 'Figma', 'Brand Guidelines', 'UI Design'],
+                liveUrl: "https://drive.google.com/drive/folders/1C0p54y7cs2Rs7LZM_Qf3H4lOlap3NgQ3?usp=sharing", 
+                gallery: [], // TIADA GAMBAR UNTUK PROJEK INI
+                desc: {
+                    en: "A comprehensive corporate and visual identity development project. It encompasses the creation of an official logo, typographic hierarchy selection, color palette definition, and brand style guidelines to ensure professional design consistency. Alongside personal branding, this project also features the UI/UX design set and core graphic assets for a mobile-based educational app prototype named 'Math Pintar'. All visual and vector assets were produced using Adobe Illustrator with an emphasis on minimalist and user-centric design.",
+                    ms: "Projek pembangunan identiti korporat dan visual (Visual Identity) yang menyeluruh. Ia merangkumi penciptaan logo rasmi, pemilihan hierarki tipografi, penetapan palet warna, dan panduan gaya penjenamaan untuk memastikan konsistensi rekaan profesional. Di samping penjenamaan peribadi, projek ini turut memuatkan set rekaan UI/UX dan aset grafik utama untuk sebuah prototaip aplikasi pendidikan berasaskan mudah alih yang dinamakan 'Math Pintar'. Semua aset visual dan vektor dihasilkan menggunakan Adobe Illustrator dengan penekanan kepada reka bentuk minimalis dan mesra pengguna (User-centric design).",
+                    id: "Proyek pengembangan identitas korporat dan visual yang komprehensif. Ini mencakup pembuatan logo resmi, pemilihan hierarki tipografi, penetapan palet warna, dan panduan gaya merek untuk memastikan konsistensi desain profesional. Selain personal branding, proyek ini juga memuat set desain UI/UX dan aset grafis utama untuk prototipe aplikasi pendidikan berbasis seluler yang disebut 'Math Pintar'. Semua aset visual dan vektor diproduksi menggunakan Adobe Illustrator dengan penekanan pada desain minimalis dan ramah pengguna (User-centric design)."
+                }
+            }
+        ];
+
+        let currentLang = 'ms'; // Default language
+        let activeProjectIndex = null;
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('current-lang').innerText = lang;
+
+            // Change regular texts
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key] && translations[key][lang]) {
+                    el.innerHTML = translations[key][lang];
+                }
+            });
+
+            // Change input placeholders
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (placeholders[key] && placeholders[key][lang]) {
+                    el.placeholder = placeholders[key][lang];
+                }
+            });
+
+            // Update modal description if it is currently open
+            if (activeProjectIndex !== null) {
+                document.getElementById('modalDescription').innerText = projectsData[activeProjectIndex].desc[currentLang];
+            }
+        }
+
+        // --- 💥 JS UNTUK LOADER EPIC SEPANJANG ABAD 💥 ---
+        window.addEventListener('load', function() {
+            let percent = 0;
+            const percentText = document.getElementById('core-percent');
+            const barFill = document.getElementById('epic-progress');
+            const terminal = document.getElementById('epic-terminal');
+            const sysStatus = document.getElementById('sys-status');
+            const hackerText = document.getElementById('hacker-name');
+            const targetName = hackerText.getAttribute('data-target');
+            const epicContent = document.getElementById('epic-content');
+            const flash = document.getElementById('epic-flash');
+            
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>';
+            const logs = [ "> MENGAKSES MAINFRAME NEURAL...", "> MENGGODAM FIREWALL UI/UX...", "> MENYUSUN BENDALIR PIKSEL...", "> MENYAHKOD IDENTITI PENGGUNA..." ];
+
+            const interval = setInterval(() => {
+                percent += Math.floor(Math.random() * 3) + 1;
+                if (percent > 100) percent = 100;
+
+                percentText.innerText = (percent < 10 ? '0' : '') + percent + '%';
+                barFill.style.width = percent + '%';
+
+                if (percent < 25) terminal.innerText = logs[0];
+                else if (percent < 50) terminal.innerText = logs[1];
+                else if (percent < 75) terminal.innerText = logs[2];
+                else terminal.innerText = logs[3];
+
+                if(percent < 90) {
+                    let randomStr = '';
+                    for(let i=0; i < targetName.length; i++) randomStr += chars[Math.floor(Math.random() * chars.length)];
+                    hackerText.innerText = randomStr;
+                }
+
+                if (percent === 100) {
+                    clearInterval(interval);
+                    hackerText.innerText = targetName;
+                    hackerText.style.color = "#4ade80"; 
+                    hackerText.style.textShadow = "0 0 20px #4ade80";
+                    terminal.innerText = "> DEKRIPSI BERJAYA. AKSES DIBENARKAN.";
+                    terminal.style.color = "#4ade80";
+                    sysStatus.innerText = "SYSTEM UNLOCKED //";
+                    sysStatus.style.color = "#4ade80";
+                    sysStatus.style.textShadow = "0 0 10px #4ade80";
+                    sysStatus.style.animation = "none";
+                    epicContent.classList.add('shake-intense');
+
+                    setTimeout(() => {
+                        epicContent.classList.remove('shake-intense');
+                        flash.style.opacity = '1';
+                        setTimeout(() => {
+                            document.body.classList.add('loaded');
+                            flash.style.opacity = '0';
+                            setTimeout(() => document.body.style.overflow = 'auto', 1000);
+                        }, 150);
+                    }, 1200);
+                }
+            }, 40);
+        });
+
+        // --- 🚀 INTERSECTION OBSERVER UNTUK ANIMASI SKILLS (SCROLL REVEAL & PROGRESS BAR) 🚀 ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Cari dan jalankan animasi progress bar dalam kad tersebut
+                        const progressBars = entry.target.querySelectorAll('.progress-fill');
+                        progressBars.forEach(bar => {
+                            const targetWidth = bar.getAttribute('data-width');
+                            // Delay sedikit supaya nampak lebih natural selepas kad muncul
+                            setTimeout(() => {
+                                bar.style.width = targetWidth;
+                            }, 400); 
+                        });
+                    }
+                });
+            }, { threshold: 0.2 }); // Trigger bila 20% kawasan kelihatan
+
+            // Observe semua elemen yang ada class reveal-skill
+            document.querySelectorAll('.reveal-skill').forEach(el => observer.observe(el));
+        });
+
+        // --- WhatsApp Logic (Multilingual) ---
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            const name = document.getElementById('waName').value;
+            const email = document.getElementById('waEmail').value;
+            const subject = document.getElementById('waSubject').value;
+            const message = document.getElementById('waMessage').value;
+            const whatsappNumber = "60189490784";
+            
+            const intro = {
+                en: "Hello Alif Daniel! I am interested in your services.",
+                ms: "Helo Alif Daniel! Saya berminat dengan servis anda.",
+                id: "Halo Alif Daniel! Saya tertarik dengan layanan Anda."
+            };
+            const labels = {
+                en: { name: "Name", email: "Email", subj: "Subject", msg: "Message" },
+                ms: { name: "Nama", email: "Emel", subj: "Subjek", msg: "Mesej" },
+                id: { name: "Nama", email: "Email", subj: "Subjek", msg: "Pesan" }
+            };
+
+            const l = labels[currentLang];
+            const whatsappText = `${intro[currentLang]}%0A%0A*${l.name}:* ${name}%0A*${l.email}:* ${email}%0A*${l.subj}:* ${subject}%0A*${l.msg}:* ${message}`;
+            window.open(`https://wa.me/${whatsappNumber}?text=${whatsappText}`, '_blank');
+        }
+
+        // --- Project Modal & Gallery Logic ---
+        function openProjectModal(index) {
+            activeProjectIndex = index;
+            const proj = projectsData[index];
+            const modal = document.getElementById('projectModal');
+            
+            document.getElementById('modalTitle').innerText = proj.title;
+            document.getElementById('modalCategory').innerText = proj.category;
+            document.getElementById('modalDescription').innerText = proj.desc[currentLang];
+            document.getElementById('modalImage').src = proj.imgSrc;
+            
+            // Sembunyikan ruangan galeri setiap kali modal baru dibuka
+            document.getElementById('galleryContainer').classList.add('hidden');
+            
+            // Uruskan Tags
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = '';
+            proj.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full';
+                span.innerText = tag;
+                tagsContainer.appendChild(span);
+            });
+
+            // Uruskan Butang URL Live
+            const liveBtn = document.getElementById('modalLiveBtn');
+            if(proj.liveUrl && proj.liveUrl !== "") {
+                liveBtn.href = proj.liveUrl;
+                liveBtn.style.display = 'flex';
+            } else {
+                liveBtn.style.display = 'none';
+            }
+
+            // --- PENGENDALIAN GALERI DINAMIK ---
+            const galleryImagesContainer = document.getElementById('galleryImages');
+            const galleryBtn = document.getElementById('modalGalleryBtn');
+            galleryImagesContainer.innerHTML = ''; // Kosongkan galeri sebelum ini
+
+            if (proj.gallery && proj.gallery.length > 0) {
+                galleryBtn.style.display = 'flex'; // Tunjuk butang jika ada galeri
+                proj.gallery.forEach(img => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'h-40 bg-white/5 rounded-xl border border-white/10 overflow-hidden hover:border-blue-500/50 transition cursor-pointer group';
+                    
+                    // Tambah fungsi OnClick untuk buka Lightbox (Zoom In)
+                    imgDiv.onclick = () => openLightbox(img); 
+                    
+                    imgDiv.innerHTML = `<img src="${img}" alt="Gambar Galeri Projek" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">`;
+                    galleryImagesContainer.appendChild(imgDiv);
+                });
+            } else {
+                galleryBtn.style.display = 'none'; // Sembunyikan butang jika tiada gambar
+            }
+
+            modal.classList.remove('hidden');
+            if(document.body.classList.contains('loaded')) document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            activeProjectIndex = null;
+            document.getElementById('projectModal').classList.add('hidden');
+            if(document.body.classList.contains('loaded')) document.body.style.overflow = 'auto';
+        }
+        
+        // Fungsi untuk toggle (buka/tutup) ruang galeri
+        function toggleGallery() {
+            const gallery = document.getElementById('galleryContainer');
+            if(gallery.classList.contains('hidden')) {
+                gallery.classList.remove('hidden');
+                // Scroll sikit ke bawah supaya galeri nampak
+                gallery.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            } else {
+                gallery.classList.add('hidden');
+            }
+        }
+
+        // --- LIGHTBOX ZOOM GAMBAR LOGIC ---
+        function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            
+            lightboxImg.src = imgSrc;
+            
+            // Paparkan lightbox
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            
+            // Beri sedikit delay untuk transition berlaku dengan licin
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightbox.classList.add('opacity-100');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            
+            // Transition hilang
+            lightbox.classList.remove('opacity-100');
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            
+            // Sembunyikan sepenuhnya selepas transition selesai
+            setTimeout(() => {
+                lightbox.classList.remove('flex');
+                lightbox.classList.add('hidden');
+                lightboxImg.src = '';
+            }, 300);
+        }
+
+        // --- CV Modal Logic ---
+        function openCVModal() {
+            document.getElementById('cvModal').classList.remove('hidden');
+            if(document.body.classList.contains('loaded')) document.body.style.overflow = 'hidden';
+        }
+
+        function closeCVModal() {
+            document.getElementById('cvModal').classList.add('hidden');
+            if(document.body.classList.contains('loaded')) document.body.style.overflow = 'auto';
+        }
+
+        // Mengawal butang ESCAPE untuk tutup semua modal & lightbox
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeModal();
+                closeCVModal();
+            }
+        });
+
         // --- Particle Background Logic ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         const mouse = { x: null, y: null, radius: 150 };
 
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
 
         function initParticles() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
             const numberOfParticles = (canvas.width * canvas.height) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < numberOfParticles; i++) particles.push(new Particle());
         }
 
         class Particle {
@@ -576,16 +1261,11 @@
                 this.speedX = Math.random() * 1.5 - 0.75;
                 this.speedY = Math.random() * 1.5 - 0.75;
             }
-
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
+                this.x += this.speedX; this.y += this.speedY;
                 if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
                 if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
+                let dx = mouse.x - this.x, dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < mouse.radius) {
                     if (mouse.x > this.x && this.x > 10) this.x -= 2;
@@ -594,30 +1274,22 @@
                     if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 2;
                 }
             }
-
             draw() {
                 ctx.fillStyle = 'rgba(59, 130, 246, 0.8)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
         function connect() {
             for (let a = 0; a < particles.length; a++) {
                 for (let b = a; b < particles.length; b++) {
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
+                    let dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y;
                     let distance = Math.sqrt(dx * dx + dy * dy);
-
                     if (distance < 150) {
                         let opacity = 1 - (distance / 150);
                         ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.2})`;
                         ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
                     }
                 }
             }
@@ -625,10 +1297,7 @@
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
             connect();
             requestAnimationFrame(animate);
         }
@@ -636,17 +1305,6 @@
         window.addEventListener('resize', initParticles);
         initParticles();
         animate();
-
-        // --- Loader Logic ---
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loader-wrapper');
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 800);
-            }, 2500); 
-        });
     </script>
 </body>
 </html>
