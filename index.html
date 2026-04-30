@@ -995,6 +995,34 @@
             }
         }
 
+        // --- 🚀 INTERSECTION OBSERVER UNTUK ANIMASI SKILLS & INITIALIZATION BAHASA PADA MULANYA 🚀 ---
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // PAKSA TERJEMAHAN BAHASA MELAYU SECARA AUTOMATIK SEMASA MEMBUKA LAMAN WEB
+            changeLanguage('ms');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Cari dan jalankan animasi progress bar dalam kad tersebut
+                        const progressBars = entry.target.querySelectorAll('.progress-fill');
+                        progressBars.forEach(bar => {
+                            const targetWidth = bar.getAttribute('data-width');
+                            // Delay sedikit supaya nampak lebih natural selepas kad muncul
+                            setTimeout(() => {
+                                bar.style.width = targetWidth;
+                            }, 400); 
+                        });
+                    }
+                });
+            }, { threshold: 0.2 }); // Trigger bila 20% kawasan kelihatan
+
+            // Observe semua elemen yang ada class reveal-skill
+            document.querySelectorAll('.reveal-skill').forEach(el => observer.observe(el));
+        });
+
         // --- 💥 JS UNTUK LOADER EPIC SEPANJANG ABAD 💥 ---
         window.addEventListener('load', function() {
             let percent = 0;
@@ -1052,30 +1080,6 @@
                     }, 1200);
                 }
             }, 40);
-        });
-
-        // --- 🚀 INTERSECTION OBSERVER UNTUK ANIMASI SKILLS (SCROLL REVEAL & PROGRESS BAR) 🚀 ---
-        window.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        
-                        // Cari dan jalankan animasi progress bar dalam kad tersebut
-                        const progressBars = entry.target.querySelectorAll('.progress-fill');
-                        progressBars.forEach(bar => {
-                            const targetWidth = bar.getAttribute('data-width');
-                            // Delay sedikit supaya nampak lebih natural selepas kad muncul
-                            setTimeout(() => {
-                                bar.style.width = targetWidth;
-                            }, 400); 
-                        });
-                    }
-                });
-            }, { threshold: 0.2 }); // Trigger bila 20% kawasan kelihatan
-
-            // Observe semua elemen yang ada class reveal-skill
-            document.querySelectorAll('.reveal-skill').forEach(el => observer.observe(el));
         });
 
         // --- WhatsApp Logic (Multilingual) ---
